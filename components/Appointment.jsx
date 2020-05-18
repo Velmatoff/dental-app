@@ -1,17 +1,20 @@
 import React from 'react';
 import {View} from 'react-native';
 import styled from 'styled-components/native'
+import GrayText from "./GrayText";
 
 
-export const Appointment = ({user, diagnosis, active, time}) => {
+export const Appointment = ({navigate, item}) => {
+    const {user,active,time} = item;
+
     return (
-        <GroupItem>
+        <GroupItem onPress={navigate.bind(this, "Patient", item)}>
             <Avatar
                 sourse={{uri: user.avatar}}
             />
             <View style={{flex: 1}}>
                 <FullName>{user.fullname}</FullName>
-                <GrayText>{diagnosis}</GrayText>
+                <GrayText>{user.diagnosis}</GrayText>
             </View>
             <GroupDate active={active}>{time}</GroupDate>
         </GroupItem>
@@ -28,14 +31,10 @@ const GroupDate = styled.Text`
     width: 70px;
     height: 32px;
     text-align: center;
-    line-height: 32px;
+    line-height: 30px;
     
 `;
 
-const GrayText = styled.Text`
-    font-size: 16px;
-    color: #8b979f;
-`;
 
 const FullName = styled.Text`
     font-weight: 600;
