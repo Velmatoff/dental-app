@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components/native'
 import {Appointment} from "../components/Appointment";
 import {SectionList} from "react-native";
 import SectionTitle from "../components/SectionTitle";
 import {Ionicons} from '@expo/vector-icons';
+import axios from 'axios';
 
 const DATA = [
     {
@@ -113,18 +114,30 @@ const DATA = [
     }
 ];
 
-function HomeScreen(props) {
-    const {navigation} = props;
+function HomeScreen({ navigation }) {
+    const [data, setData] = useState([]);
+
+
+    useEffect(() => {
+        console.log(DATA);
+       let res = axios.get('https://trycode.pw/c/D2P4Y.json')
+            .then(({data}) => {
+                console.log(data);
+                setData(data);
+            });
+    }, []);
+
+
     return (
         <Container>
-            <SectionList
-                sections={DATA}
-                keyExtractor={(item, index) => index}
-                renderItem={({item}) => <Appointment navigate={navigation.navigate} item={item}/>}
-                renderSectionHeader={({section: {title}}) => (
-                    <SectionTitle>{title}</SectionTitle>
-                )}
-            />
+            {data && (
+                <SectionList
+                    sections={data}
+                    keyExtractor={(item, index) => index}
+                    renderItem={({item}) => <Appointment navigate={navigation.navigate} item={item}/>}
+                    renderSectionHeader={({section: {title}}) => (
+                        <SectionTitle>{title}</SectionTitle>)}/>
+            )}
             <PlusButton
                 style={{
                     shadowColor: "#2A86FF",

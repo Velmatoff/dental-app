@@ -2,38 +2,32 @@ import React from 'react';
 import {View} from 'react-native';
 import styled from 'styled-components/native'
 import GrayText from "./GrayText";
+import Badge from "./Badge";
+import {Image} from "react-native";
 
 
 export const Appointment = ({navigate, item}) => {
-    const {user,active,time} = item;
+    const {user, active, time} = item;
 
     return (
         <GroupItem onPress={navigate.bind(this, "Patient", item)}>
-            <Avatar
+            <Image
+                style={{
+                    borderTopRightRadius: 50,
+                    height: 40,
+                    width: 40,
+                    marginRight: 15,
+                }}
                 sourse={{uri: user.avatar}}
             />
             <View style={{flex: 1}}>
                 <FullName>{user.fullname}</FullName>
                 <GrayText>{user.diagnosis}</GrayText>
             </View>
-            <GroupDate active={active}>{time}</GroupDate>
+            <Badge active={active}>{time}</Badge>
         </GroupItem>
     )
 };
-
-
-const GroupDate = styled.Text`
-    background: ${props => props.active ? '#2A86FF' : '#E9F5FF'};
-    color: ${props => props.active ? '#fff' : '#4294ff'};
-    border-radius: 18px;
-    font-weight: 600;
-    font-size: 14px;
-    width: 70px;
-    height: 32px;
-    text-align: center;
-    line-height: 30px;
-    
-`;
 
 
 const FullName = styled.Text`
